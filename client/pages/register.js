@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Make sure axios is installed and imported
 
 const Register = () => {
+  // State hooks for form fields
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secret, setSecret] = useState('');
 
+  // Handlers for form field changes
   const handleNameChange = (e) => setName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const handleSecretChange = (e) => setSecret(e.target.value);
 
+  // Handler for form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Здесь должна быть логика отправки данных формы, например:
-    // axios.post('/api/register', { name, email, password, secret })
-    //   .then(response => { ... })
-    //   .catch(error => { ... });
-    console.log(name, email, password, secret);
+    e.preventDefault(); // Prevent default form submission behavior
+
+    // Post data to server using axios
+    axios
+      .post("http://localhost:8000/api/register", { name, email, password, secret })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
