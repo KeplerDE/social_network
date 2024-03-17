@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Make sure axios is installed and imported
+import { toast } from 'react-toastify' 
 
 const Register = () => {
   // State hooks for form fields
@@ -7,6 +8,7 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secret, setSecret] = useState('');
+  const [ok, setOk ] = useState(false);
 
   // Handlers for form field changes
   const handleNameChange = (e) => setName(e.target.value);
@@ -15,14 +17,23 @@ const Register = () => {
   const handleSecretChange = (e) => setSecret(e.target.value);
 
   // Handler for form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
+    try {
+          // Post data to server using axios
+      const { data } = await axios.post("http://localhost:8000/api/register", { 
+        name, 
+        email, 
+        password, 
+        secret 
+      });
+      setOk(res.data.ok)
+    } catch (err) {
+        toast.error(err.response.data); 
+    }
 
-    // Post data to server using axios
-    axios
-      .post("http://localhost:8000/api/register", { name, email, password, secret })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      // .then((res) => setOk(res.data.ok))
+      // .catch((err) => toast.error(err.response.data));
   };
 
   return (
