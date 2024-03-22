@@ -1,52 +1,75 @@
-import React, { useState } from 'react';
+// Импорт необходимых зависимостей
+import React, { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from 'next/router'; // Добавляем для программной навигации
+import Link from "next/link";
+import AuthForm from "../components/forms/AuthForm"; // Уточните путь в соответствии с вашей структурой проекта
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({
-    username: '',
-    password: '',
-  });
+  // Использование хуков состояния для управления полями формы и состоянием загрузки
+  const [email, setEmail] = useState("test@gmail.com"); // Значение по умолчанию для email
+  const [password, setPassword] = useState(""); // Значение по умолчанию для password
+  const [loading, setLoading] = useState(false);
+  const router = useRouter(); // Инициализируем хук для использования роутера
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCredentials({
-      ...credentials,
-      [name]: value,
-    });
-  };
-
+  // Обработчик отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement your login logic here, e.g., API call for authentication
-    console.log('Submitting login credentials: ', credentials);
+    setLoading(true); 
+
+    try {
+      // Отправляем POST-запрос на сервер для аутентификации
+      const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API}/login`, {
+        email,
+        password,
+      });
+
+      // Обработка полученных данных
+      console.log(data);
+      router.push('/'); // Перенаправляем пользователя на главную страницу после успешного входа
+    } catch (err) {
+      // Обработка ошибок, если что-то пошло не так
+      toast.error(err.response.data);
+      setLoading(false);
+    }
   };
 
+  // JSX для отрисовки формы входа
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={credentials.username}
-            onChange={handleChange}
+    <div className="container-fluid">
+      <div className="row py-5 text-light bg-default-image">
+        <div className="col text-center">
+          <h1>Login</h1>
+        </div>
+      </div>
+
+      <div className="row py-5">
+        <div className="col-md-6 offset-md-3">
+          <AuthForm
+            handleSubmit={handleSubmit}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            loading={loading}
+            page="login"
           />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={credentials.password}
-            onChange={handleChange}
-          />
-        </label>
-        <button type="submit">Login</button>
-      </form>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col">
+          <p className="text-center">
+            Not yet registred?{" "}
+            <Link href="/register">
+              <span>Register</span>
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Login;
-  
