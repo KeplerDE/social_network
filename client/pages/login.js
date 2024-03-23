@@ -24,7 +24,7 @@ const Login = () => {
         email,
         password,
       });
-
+      console.log(data)
       // Обработка полученных данных
       console.log(data);
       router.push('/'); // Перенаправляем пользователя на главную страницу после успешного входа
