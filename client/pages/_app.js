@@ -1,3 +1,4 @@
+import { UserProvider } from "../context";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from 'next/app';
 import Nav from "../components/Nav";
@@ -9,14 +10,14 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({ Component, pageProps }) {
     return (
-      <>
+      <UserProvider>
         <Head>
           <link rel="stylesheet" href="/css/styles.css" />
         </Head>
         <Nav />
         <ToastContainer position="top-center" />
         <Component {...pageProps} />
-      </>
+      </UserProvider>
     );
   }
   

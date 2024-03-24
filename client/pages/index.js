@@ -1,25 +1,21 @@
-// pages/index.js
+import { useContext } from "react"; 
+import { UserContext } from "../context"; 
 
-import Head from 'next/head';
+const Home = () => {
+  const { state, setState } = useContext(UserContext); 
 
-export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>My Next.js App</title>
-        <meta name="description" content="Welcome to my Next.js App" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className='display-1 text-center py-5'>Welcome to my Next.js App</h1>
-        <img src='/images/default.jpg' alt='image' />
-        <p>This is the start page of my Next.js application.</p>
-      </main>
-
-      <footer>
-        <p>Footer content goes here.</p>
-      </footer>
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <h1 className="display-1 text-center">Home page</h1>
+          {/* Отображение состояния в формате строки JSON */}
+          <h5>{JSON.stringify(state)}</h5>
+          <img src="/images/default.jpg" alt="image" />
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
