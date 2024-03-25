@@ -19,6 +19,7 @@ const Login = () => {
   const { state, setState } = useContext(UserContext);
 
 
+
   // Обработчик отправки формы
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +38,7 @@ const Login = () => {
       });
       // save in local storage
       window.localStorage.setItem('auth',JSON.stringify(data));
+      router.push('/')
     } catch (err) {
       // Обработка ошибок, если что-то пошло не так
       toast.error(err.response.data);
