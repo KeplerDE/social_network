@@ -1,17 +1,23 @@
-// Импорт необходимых зависимостей
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useRouter } from 'next/router'; // Добавляем для программной навигации
+import { useRouter } from 'next/router'; 
 import Link from "next/link";
-import AuthForm from "../components/forms/AuthForm"; // Уточните путь в соответствии с вашей структурой проекта
+import AuthForm from "../components/forms/AuthForm"; 
+import { UserContext } from "../context";
+
+
 
 const Login = () => {
   // Использование хуков состояния для управления полями формы и состоянием загрузки
-  const [email, setEmail] = useState("test@gmail.com"); // Значение по умолчанию для email
-  const [password, setPassword] = useState(""); // Значение по умолчанию для password
+  const [email, setEmail] = useState("test@gmail.com"); 
+  const [password, setPassword] = useState(""); 
   const [loading, setLoading] = useState(false);
-  const router = useRouter(); // Инициализируем хук для использования роутера
+  const router = useRouter(); 
+
+
+  const { state, setState } = useContext(UserContext);
+
 
   // Обработчик отправки формы
   const handleSubmit = async (e) => {
@@ -24,7 +30,13 @@ const Login = () => {
         email,
         password,
       });
-      router.push('/'); // Перенаправляем пользователя на главную страницу после успешного входа
+      // update context
+      setState({
+        user: data.user,
+        token: data.token,
+      });
+      // save in local storage
+      window.localStorage.setItem('auth',JSON.stringify(data));
     } catch (err) {
       // Обработка ошибок, если что-то пошло не так
       toast.error(err.response.data);
