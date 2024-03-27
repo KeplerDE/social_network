@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from 'next/router'; 
@@ -45,7 +45,8 @@ const Login = () => {
       setLoading(false);
     }
   };
-
+  
+  if (state && state.token) router.push("/");
   // JSX для отрисовки формы входа
   return (
     <div className="container-fluid">

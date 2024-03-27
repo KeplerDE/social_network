@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios'; 
 import { toast } from 'react-toastify' 
 import { useRouter } from 'next/router';
+import { UserContext } from '../context'
 
 import AuthForm from "../components/forms/AuthForm"
 
@@ -15,6 +16,9 @@ const Register = () => {
   const [ok, setOk ] = useState(false);
   const [loading, setLoading ] = useState(false);
   const router = useRouter();
+
+  const { state } = useContext(UserContext);
+
 
   // Handler for form submission
   const handleSubmit = async (e) => {
@@ -48,6 +52,8 @@ const Register = () => {
         toast.error(err.response.data); 
     }
   };
+
+  if (state && state.token) router.push("/");
 
   return (
     <div className="container-fluid">

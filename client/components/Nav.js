@@ -13,7 +13,7 @@ const Nav = () => {
     }
   }, [process.browser && window.location.pathname]);
 
-  console.log('current.. ', current)
+
 
   const router = useRouter();
 
