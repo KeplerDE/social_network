@@ -10,8 +10,12 @@ const UserProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    setState(JSON.parse(window.localStorage.getItem('auth')));
-  }, [])
+    const auth = window.localStorage.getItem('auth');
+    if (auth) {
+      setState(JSON.parse(auth));
+    }
+  }, []);
+  
 
 
   return (

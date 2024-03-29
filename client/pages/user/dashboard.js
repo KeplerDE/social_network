@@ -1,18 +1,22 @@
-import { useContext } from "react";
-import { UserContext } from "../../context/index";
+// pages/user/dashboard.js
+import React, { useContext } from 'react';
+import UserRoute from '../../components/routes/UserRoute'; // Исправленный путь
+import { UserContext } from '../../context'; // Возможно, также потребуется изменить
 
-const Home = () => {
-  const { state, setState } = useContext(UserContext);
+const Dashboard = () => {
+  const [state] = useContext(UserContext);
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <h1 className="display-1 text-center">Dashboard page</h1>
+    <UserRoute> 
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <h1 className="display-1 text-center">Dashboard page</h1>
+          </div>
         </div>
       </div>
-    </div>
+    </UserRoute>
   );
 };
 
-export default Home;
+export default Dashboard;

@@ -90,7 +90,7 @@ exports.login = async (req, res) => {
 
 exports.currentUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.auth._id);
     // res.json(user);
     res.json({ ok: true });
   } catch (err) {
