@@ -1,10 +1,10 @@
-// pages/user/dashboard.js
 import React, { useContext } from 'react';
-import UserRoute from '../../components/routes/UserRoute'; // Исправленный путь
-import { UserContext } from '../../context'; // Возможно, также потребуется изменить
+import UserRoute from '../../components/routes/UserRoute';
+import { UserContext } from '../../context';
 
 const Dashboard = () => {
-  const [state] = useContext(UserContext);
+  const state = useContext(UserContext);
+
 
   return (
     <UserRoute> 

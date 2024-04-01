@@ -1,4 +1,8 @@
 import { useState, createContext, useEffect } from "react";
+import axios from 'axios';
+import { useRouter } from 'next/router'
+
+
 
 const UserContext = createContext();
 
@@ -17,6 +21,22 @@ const UserProvider = ({ children }) => {
   }, []);
   
 
+const router = useRouter();
+
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+
+  function (error) {
+    let res = error.response;
+    if (res.status === 401 && res.config && !res.config._isRetryRequest) {
+      setState(null);
+      window.localStorage.removeItem("auth");
+      router.push("/login");
+    }
+  }
+);
 
   return (
     <UserContext.Provider value={{ state, setState }}>
