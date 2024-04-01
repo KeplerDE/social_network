@@ -24,12 +24,7 @@ const UserRoute = ({ children }) => {
 
   const getCurrentUser = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API}/current-user`, {
-        headers: {
-          Authorization: `Bearer ${state.token}`,
-        },
-      });
-      console.log('Current user data:', response.data);
+      const response = await axios.get(`/current-user`);
       if (response.data.ok) {
         setOk(true);
       }
