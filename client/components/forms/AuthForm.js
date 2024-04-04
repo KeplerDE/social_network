@@ -54,7 +54,7 @@ const AuthForm = ({
         </div>
         {page != "login" && (
         <>
-            <div className="form-group p-2">
+            <div className="form-group ">
                 <small>
                     <label className="text-muted">Pick a question</label>
                 </small>
@@ -69,15 +69,16 @@ const AuthForm = ({
                     <option value="birth-city">What city were you born in?</option>
                 </select>
             </div>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Write your answer here"
-                        value={secret}
-                        onChange={(e) => setSecret(e.target.value)}
-                    />
-                </div>
+
+            <div className="form-group">
+                <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Write your answer here"
+                    value={secret}
+                    onChange={(e) => setSecret(e.target.value)}
+                />
+            </div>
             </>
         )}
         
