@@ -53,14 +53,19 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       // Если пользователь не найден, отправляем статус 400
-      return res.status(400).send("No user found");
+      return res.json({
+        error:"No user found"
+      })
     }
 
     // Проверка соответствия пароля
     const match = await comparePassword(password, user.password);
     if (!match) {
       // Если пароль не совпадает, отправляем статус 400
-      return res.status(400).send("Wrong password");
+      return res.json({
+        error: "Wrong password",
+      })
+      
     }
 
     // Создание подписанного токена
@@ -98,3 +103,42 @@ exports.currentUser = async (req, res) => {
     res.sendStatus(400);
   }
 };
+
+
+exports.forgotPassword = async (req, res) => {
+  const { email, newPassword, secret } = req.body;
+
+  
+  if (!newPassword || newPassword.length < 6) {
+    return res.json({
+      error: "New password is required and should be min 6 characters long",
+    });
+  }
+
+  if (!secret) {
+    return res.json({
+      error: "Secret is required",
+    });
+  }
+
+  const user = await User.findOne({ email, secret });
+  if (!user) {
+    return res.json({
+      error: "We can't verify you with those details",
+    });
+  }
+
+  try {
+    const hashed = await hashPassword(newPassword);
+    await User.findByIdAndUpdate(user._id, { password: hashed });
+    return res.json({
+      success: "Congrats, Now you can login with your new password",
+    });
+  } catch (err) {
+    console.log(err);
+    return res.json({
+      error: "Something wrong. Try again.",
+    });
+  }
+};
+

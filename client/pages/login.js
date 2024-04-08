@@ -31,14 +31,20 @@ const Login = () => {
         email,
         password,
       });
-      // update context
-      setState({
-        user: data.user,
-        token: data.token,
+
+      if (data.error) {
+        toast.error(data.error);
+        setLoading(false);
+      } else {
+        // update context
+        setState({
+          user: data.user,
+          token: data.token,
       });
-      // save in local storage
-      window.localStorage.setItem('auth',JSON.stringify(data));
-      router.push('/')
+        // save in local storage
+        window.localStorage.setItem('auth',JSON.stringify(data));
+        router.push('/')
+      } 
     } catch (err) {
       // Обработка ошибок, если что-то пошло не так
       toast.error(err.response.data);
@@ -85,7 +91,7 @@ const Login = () => {
       <div className="row">
         <div className="col">
           <p className="text-center">
-            <Link className="text-danger" href="/user/forgot-password">
+            <Link className="text-danger" href="/forgot-password">
               Forgot password
             </Link>
           </p>

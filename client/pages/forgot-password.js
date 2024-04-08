@@ -8,7 +8,7 @@ import ForgotPasswordForm from "../components/forms/ForgotPasswordForm";
 const ForgotPassword = () => {
   // State hooks for form fields
   const [email, setEmail] = useState('');
-  const [newPassword, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [secret, setSecret] = useState('');
   const [ok, setOk] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,27 +17,36 @@ const ForgotPassword = () => {
   const { state } = useContext(UserContext);
 
   // Handler for form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    // console.log(name, email, password, secret);
     setLoading(true);
-    try {
-      const { data } = await axios.post('/forgot-password', {
-        email,
-        newPassword,
-        secret,
-      });
-
-      if (data.ok) {
-        setOk(true);
-        toast.success("Password created successfully...");
-        router.push('/login');
-      }
-      setLoading(false);
-    } catch (error) {
-      toast.error(error.response.data);
+    const { data } = await axios.post(`/forgot-password`, {
+      email,
+      newPassword,
+      secret,
+    });
+ 
+    console.log("forgot password res => ", data);
+ 
+    if (data.error) {
+      toast.error(data.error);
       setLoading(false);
     }
-  };
+ 
+    if (data.success) {
+      setEmail("");
+      setNewPassword("");
+      setSecret("");
+      setOk(true);
+      setLoading(false);
+    }
+  } catch (err) {
+    console.log(err);
+    setLoading(false);
+  }
+};
 
   if (state && state.token) router.push("/");
 
@@ -58,7 +67,7 @@ const ForgotPassword = () => {
             email={email}
             setEmail={setEmail}
             newPassword={newPassword}
-            setPassword={setPassword}
+            setPassword={setNewPassword}
             secret={secret}
             setSecret={setSecret}
             loading={loading}
