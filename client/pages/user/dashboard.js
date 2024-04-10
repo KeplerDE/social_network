@@ -1,10 +1,27 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import UserRoute from '../../components/routes/UserRoute';
 import { UserContext } from '../../context';
 import CreatePostForm from '../../components/forms/CreatePostForm';
+import { useRouter, UserRouter } from 'next/router'
+import axios from 'axios';
 
 const Dashboard = () => {
   const state = useContext(UserContext);
+
+  const [content, setContent] = useState("");
+  // route
+  const router = useRouter();
+
+  const postSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const { data } = await axios.post("/create-post", { content });
+        console.log("create post response => ", data);
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 
   return (
     <UserRoute>
@@ -17,7 +34,10 @@ const Dashboard = () => {
 
         <div className='row py-3'>
           <div className='col-md-8'>
-            <CreatePostForm />
+            <CreatePostForm 
+            content={content} 
+            setContent={setContent} 
+            postSubmit={postSubmit}/>
           </div>
           <div className='col-md-4'> 
             Sidebar
