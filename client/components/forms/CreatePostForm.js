@@ -13,7 +13,10 @@ const CreatePostForm = ({ content, setContent, postSubmit }) => {
             </div>
 
             <div className="card-footer">
-                <button onClick={postSubmit} className="btn btn-primary btn-sm mt-1">Post</button>
+                <button 
+                disabled={!content}
+                onClick={postSubmit} 
+                className="btn btn-primary btn-sm mt-1">Post</button>
             </div>
         </div>
     );
