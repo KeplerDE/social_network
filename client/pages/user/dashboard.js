@@ -36,6 +36,21 @@ const Dashboard = () => {
     }
 };
 
+async function handleImage(event) {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append("image", file);
+  
+  console.log([...formData]);
+
+  try {
+    const response = await axios.post("/upload_image", formData);
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
   return (
     <UserRoute>
@@ -51,7 +66,8 @@ const Dashboard = () => {
             <CreatePostForm 
             content={content} 
             setContent={setContent} 
-            postSubmit={postSubmit}/>
+            postSubmit={postSubmit}
+            handleImage={handleImage}/>
           </div>
           <div className='col-md-4'> 
             Sidebar
