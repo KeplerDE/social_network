@@ -36,21 +36,19 @@ const Dashboard = () => {
     }
 };
 
-async function handleImage(event) {
-  const file = event.target.files[0];
-  const formData = new FormData();
+
+const handleImage = async (e) => {
+  const file = e.target.files[0];
+  let formData = new FormData();
   formData.append("image", file);
   
-  console.log([...formData]);
-
   try {
-    const response = await axios.post("/upload_image", formData);
-    console.log(response.data);
-  } catch (error) {
-    console.error(error);
+  const { data } = await axios.post("/upload-image", formData);
+  console.log("uploaded image => ", data);
+  } catch (err) {
+  console.log(err);
   }
-}
-
+  };
 
   return (
     <UserRoute>

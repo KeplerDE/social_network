@@ -1,4 +1,12 @@
 const Post = require("../models/post");
+const cloudinary = require("cloudinary")
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET,
+    });
+
 
 exports.createPost = async (req, res) => {
     const { content } = req.body;
@@ -31,3 +39,19 @@ exports.createPost = async (req, res) => {
         res.status(500).json({ error: "An error occurred while saving the post" });
     }
 };
+
+
+
+exports.uploadImage = async (req, res ) => {
+// console.log("req files =>", req.files);
+try {
+    const result = await cloudinary.uploader.upload(req.files.image.path);
+    console.log("Uploaded image URL => ", result);
+    res.json({
+    url: result.secure_url,
+    public_id: result.public_id,
+    });
+    } catch (err) {
+    console.log(err);
+    }
+    };

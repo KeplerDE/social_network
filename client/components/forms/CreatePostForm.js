@@ -12,7 +12,7 @@ const CreatePostForm = ({ content, setContent, postSubmit, handleImage }) => {
                     <ReactQuill 
                         theme="snow" 
                         value={content}
-                        onChange={setContent} // ReactQuill уже предоставляет чистый HTML, поэтому нет необходимости использовать e.target.value
+                        onChange={setContent}
                         placeholder="Write something..."
                     />
                 </form>
