@@ -9,7 +9,7 @@ cloudinary.config({
 
 
 exports.createPost = async (req, res) => {
-    const { content } = req.body;
+    const { content, image } = req.body;
     
     console.log("User ID:", req.user ? req.user._id : "User object not available");
     
@@ -22,7 +22,7 @@ exports.createPost = async (req, res) => {
     
     try {
         // Создаем новый пост
-        const post = new Post({ content, postedBy: req.user ? req.user._id : null });
+        const post = new Post({ content, image, postedBy: req.user ? req.user._id : null });
         
         console.log("New Post Object:", post);
         

@@ -10,6 +10,9 @@ const Dashboard = () => {
   const state = useContext(UserContext);
 
   const [content, setContent] = useState("");
+  const [ image, setImage ] = useState({});
+  const [uploading, setUploading ] = useState(false);
+
   // route
   const router = useRouter();
 
@@ -17,7 +20,7 @@ const Dashboard = () => {
     e.preventDefault();
     try {
         // Sending a POST request to create a post
-        const { data } = await axios.post("/create-post", { content });
+        const { data } = await axios.post("/create-post", { content, image });
         console.log("Create post response => ", data);
         // Checking if there's an error in the response
         if (data.error) {
@@ -41,12 +44,18 @@ const handleImage = async (e) => {
   const file = e.target.files[0];
   let formData = new FormData();
   formData.append("image", file);
-  
+  setUploading(true);
   try {
   const { data } = await axios.post("/upload-image", formData);
-  console.log("uploaded image => ", data);
+  // console.log("uploaded image => ", data);
+  setImage({
+    url: data.url,
+    public_id: data.public_id,
+  })
+  setUploading(false);
   } catch (err) {
   console.log(err);
+  setUploading(false);
   }
   };
 
@@ -65,7 +74,10 @@ const handleImage = async (e) => {
             content={content} 
             setContent={setContent} 
             postSubmit={postSubmit}
-            handleImage={handleImage}/>
+            handleImage={handleImage}
+            uploading={uploading}
+            image={image}
+            />
           </div>
           <div className='col-md-4'> 
             Sidebar
