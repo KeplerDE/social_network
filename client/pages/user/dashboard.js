@@ -30,6 +30,7 @@ const Dashboard = () => {
             // If no error, show success message and reset content
             toast.success("Post created...");
             setContent("");
+            setImage({});
         }
     } catch (err) {
         // If an error occurs during the request, log it
