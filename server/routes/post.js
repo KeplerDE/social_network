@@ -6,10 +6,13 @@ const router = express.Router();
 const { requireSignIn } = require('../middlewares/index');
 
 // controllers
-const { createPost, uploadImage } = require('../controllers/post');
+const { createPost, uploadImage, postsByUser} = require('../controllers/post');
 
 
 router.post('/create-post', requireSignIn, createPost);
 router.post('/upload-image', requireSignIn, formidable({ maxFileSize: 5 * 1024 * 1024 }), uploadImage);
+
+//posts
+router.get('/user-posts', requireSignIn, postsByUser);
 
 module.exports = router;

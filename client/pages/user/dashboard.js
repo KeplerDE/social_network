@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import UserRoute from '../../components/routes/UserRoute';
 import { UserContext } from '../../context';
 import CreatePostForm from '../../components/forms/CreatePostForm';
@@ -12,9 +12,25 @@ const Dashboard = () => {
   const [content, setContent] = useState("");
   const [ image, setImage ] = useState({});
   const [uploading, setUploading ] = useState(false);
+  const [posts, setPosts ] = useState([]);
 
   // route
   const router = useRouter();
+
+  //
+  useEffect(() => {
+    fetchUserPosts();
+  }, []);
+  
+  const fetchUserPosts = async () => {
+    try {
+      const { data } = await axios.get("/user-posts");
+      console.log("user posts => ", data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
 
   const postSubmit = async (e) => {
     e.preventDefault();
@@ -48,7 +64,7 @@ const handleImage = async (e) => {
   setUploading(true);
   try {
   const { data } = await axios.post("/upload-image", formData);
-  // console.log("uploaded image => ", data);
+  console.log("uploaded image => ", data);
   setImage({
     url: data.url,
     public_id: data.public_id,
@@ -80,6 +96,9 @@ const handleImage = async (e) => {
             image={image}
             />
           </div>
+
+          <pre>{JSON.stringify(posts, null, 4)} </pre>
+
           <div className='col-md-4'> 
             Sidebar
           </div>

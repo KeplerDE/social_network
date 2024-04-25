@@ -55,3 +55,18 @@ try {
     console.log(err);
     }
     };
+
+    
+exports.postsByUser = async (req, res) => {
+    const userId = req.query.userId; // Получаем userId из параметра запроса
+    try {
+        const posts = await Post.find({ postedBy: userId })
+            .populate('postedBy', '_id name image')
+            .sort({ createdAt: -1 })
+            .limit(10);
+        res.json(posts); // Отправляем посты клиенту
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
