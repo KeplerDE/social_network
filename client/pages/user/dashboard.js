@@ -5,6 +5,7 @@ import CreatePostForm from '../../components/forms/CreatePostForm';
 import { useRouter, UserRouter } from 'next/router'
 import axios from 'axios';
 import { toast } from 'react-toastify'
+import PostList from '../../components/cards/PostList'
 
 const Dashboard = () => {
   const state = useContext(UserContext);
@@ -25,7 +26,7 @@ const Dashboard = () => {
   const fetchUserPosts = async () => {
     try {
       const { data } = await axios.get("/user-posts");
-      console.log("user posts => ", data);
+      setPosts(data);
     } catch (err) {
       console.log(err);
     }
@@ -97,7 +98,7 @@ const handleImage = async (e) => {
             />
           </div>
 
-          <pre>{JSON.stringify(posts, null, 4)} </pre>
+          <PostList posts={posts}/>
 
           <div className='col-md-4'> 
             Sidebar
