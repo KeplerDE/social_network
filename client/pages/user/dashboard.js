@@ -97,9 +97,10 @@ const handleImage = async (e) => {
             uploading={uploading}
             image={image}
             />
+            <PostList posts={posts}/>
           </div>
 
-          <PostList posts={posts}/>
+          
 
           <div className='col-md-4'> 
             Sidebar
