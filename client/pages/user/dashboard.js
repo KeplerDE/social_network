@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify'
 import PostList from '../../components/cards/PostList'
 
+
 const Dashboard = () => {
   const state = useContext(UserContext);
 
@@ -14,7 +15,7 @@ const Dashboard = () => {
   const [ image, setImage ] = useState({});
   const [uploading, setUploading ] = useState(false);
   const [posts, setPosts ] = useState([]);
-
+  
   // route
   const router = useRouter();
 
