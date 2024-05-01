@@ -60,7 +60,8 @@ try {
 exports.postsByUser = async (req, res) => {
     const userId = req.query.userId; // Получаем userId из параметра запроса
     try {
-        const posts = await Post.find({ postedBy: userId })
+        // const posts = await Post.find({ postedBy: userId })
+        const posts = await Post.find({})
             .populate('postedBy', '_id name image')
             .sort({ createdAt: -1 })
             .limit(10);
