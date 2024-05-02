@@ -45,6 +45,7 @@ const Dashboard = () => {
             // If there's an error, show error message
             toast.error(data.error);
         } else {
+          fetchUserPosts();
             // If no error, show success message and reset content
             toast.success("Post created...");
             setContent("");

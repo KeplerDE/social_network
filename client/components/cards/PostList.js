@@ -4,9 +4,11 @@ import moment from 'moment';
 import { FaUserCircle, FaThumbsUp, FaComment, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import PostImage from '../images/PostImage';
 import { UserContext } from "../../context";
+import { useRouter } from 'next/router';
  
 const PostList = ({ posts }) => {
   const { state } = useContext(UserContext);
+  const router = useRouter();
 
   return (
     <>
@@ -32,12 +34,15 @@ const PostList = ({ posts }) => {
             {post.image && <PostImage url={post.image.url} />}
             <div className="pt-3">
               <FaThumbsUp className="mr-2" />
-              <span className="ml-2">Likes</span>
+              <span className="ml-2"> Likes</span>
               <FaComment className="mx-2" />
               <span>2 comments </span>
             { state && state.user  && state.user._id === post.postedBy?._id && (
               <>
-                <FaEdit className="text-success pt-7 h5 px-7"  style={{ cursor: 'pointer' }}/>
+                <FaEdit 
+                onClick={() => router.push(`/user/post/${post._id}`)} 
+                className="text-success pt-7 h5 px-7"  style={{ cursor: 'pointer' }}
+                />
                 <FaTrashAlt className="text-danger pt-7 h5 px-7 " style={{ cursor: 'pointer' }}/></>
             )}
             </div>
