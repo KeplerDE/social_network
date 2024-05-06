@@ -37,27 +37,30 @@ const Dashboard = () => {
   const postSubmit = async (e) => {
     e.preventDefault();
     try {
-        // Sending a POST request to create a post
-        const { data } = await axios.post("/create-post", { content, image });
+        // Включаем информацию о пользователе в тело запроса
+        const postData = {
+            content: content,
+            image: image,
+            postedBy: state.state.user._id  // Отправляем ID пользователя
+        };
+
+        const { data } = await axios.post("/create-post", postData);
         console.log("Create post response => ", data);
-        // Checking if there's an error in the response
+        // Проверяем на наличие ошибок в ответе
         if (data.error) {
-            // If there's an error, show error message
             toast.error(data.error);
         } else {
-          fetchUserPosts();
-            // If no error, show success message and reset content
+            fetchUserPosts();  // Обновляем список постов
             toast.success("Post created...");
             setContent("");
             setImage({});
         }
     } catch (err) {
-        // If an error occurs during the request, log it
         console.log(err);
-        // Show a generic error message to the user
         toast.error("Something went wrong. Please try again.");
     }
 };
+
 
 
 const handleImage = async (e) => {
